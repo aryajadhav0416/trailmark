@@ -6,6 +6,10 @@ In compliance with hackathon rules, this document records AI tool usage in the d
 
 - **Date**: 2026-11-14
 - **Tool**: Antigravity (Gemini 3.8 Flash)
+- **Scope**: Created `scripts/chunk_demo.py` inspection CLI. Added `tests/test_fixtures.py` running real samples and edge cases. Enhanced CSV chunking to support embedded newlines using Python's `csv.reader`. Added empty file validation.
+
+- **Date**: 2026-11-14
+- **Tool**: Antigravity (Gemini 3.8 Flash)
 - **Scope**: Implemented `app/services/ingest.py` and `app/services/chunker.py` with zero-LLM deterministic chunking, format normalisation, boundary validation, and unit tests in `tests/test_services.py`.
 
 - **Date**: 2026-11-14

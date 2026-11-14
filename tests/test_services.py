@@ -176,3 +176,4 @@ def test_chunk_json_pretty_printed():
     # Pretty-printed JSON should contain standard indentation
     assert '  "settings": {' in chunks[0].text
     assert '  "tags": [' in chunks[0].text
+

@@ -1,0 +1,38 @@
+{
+  "event": "Hope Walk 2026",
+  "volunteers_signed_up": 42,
+  "volunteers_needed": 60,
+  "sample_of_list": [
+    {
+      "name": "Rohit Pawar",
+      "phone": "98765 43210",
+      "role": "Route marshal",
+      "available": "6 Dec"
+    },
+    {
+      "name": "Sneha Kulkarni",
+      "phone": "98765 43211",
+      "role": "Registration desk",
+      "available": "6 Dec"
+    },
+    {
+      "name": "Imran Sheikh",
+      "phone": "98765 43212",
+      "role": "Water point 1",
+      "available": "6 Dec"
+    },
+    {
+      "name": "Divya Rao",
+      "phone": "98765 43213",
+      "role": "Water point 2",
+      "available": "13 Dec only",
+      "notes": "Cannot make 6 Dec"
+    },
+    {
+      "name": "Karan Bhosale",
+      "phone": "98765 43214",
+      "role": "Unassigned",
+      "available": "6 Dec"
+    }
+  ]
+}

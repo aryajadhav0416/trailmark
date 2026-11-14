@@ -2,6 +2,24 @@
 
 All notable changes to the Trailmark project will be documented in this file.
 
+## [0.4.0] - CLI Tool and Real Fixture Validation Suite
+### Added
+- `scripts/chunk_demo.py`: CLI tool accepting a file path and printing chunk labels, 80-character snippets, warnings (unknown extension, encoding), or clear rejection messages.
+- `tests/test_fixtures.py`: Comprehensive test suite validating ingestion and chunker behavior against sample datasets and edge-case fixtures:
+  - `samples/campus_food_app/chat_export.txt`
+  - `samples/campus_food_app/meeting_notes/03_it_policy_discussion_2026-10-22.md`
+  - `samples/campus_food_app/tasks.csv`
+  - `tests/fixtures/edge_cases/csv_edge.csv` (proper handling of multi-line cells, quotes, and Hindi/Rupee symbols)
+  - `samples/campus_food_app/github_issues.json`
+  - `tests/fixtures/edge_cases/windows_crlf_bom.txt`
+  - `tests/fixtures/edge_cases/unknown_extension.log`
+  - `tests/fixtures/edge_cases/empty.txt`
+  - `tests/fixtures/edge_cases/too_large.txt`
+  - `tests/fixtures/edge_cases/paste_snippet.txt`
+  - Cumulative volume verification of all `samples/campus_food_app/` files within `MAX_INPUT_CHARS`.
+- Empty file validation in `process_uploaded_file` with human-readable rejection.
+- Line tracking in `chunk_csv` using `csv.reader` to preserve multiline cells and quotes.
+
 ## [0.3.0] - Ingestion and Chunker Services
 ### Added
 - `app/services/ingest.py`: Multi-source ingestion pipeline supporting `.txt`, `.md`, `.csv`, `.json`, and pasted text.

@@ -79,8 +79,11 @@ def process_uploaded_file(
     """
     Validate, decode, and normalize a single uploaded file.
 
-    Raises IngestionError if size exceeds max_file_bytes.
+    Raises IngestionError if file is empty or exceeds max_file_bytes.
     """
+    if len(raw_bytes) == 0:
+        raise IngestionError(f"File '{filename}' is empty. Please provide a file with content.")
+
     limit_bytes = max_file_bytes or settings.MAX_FILE_BYTES
     if len(raw_bytes) > limit_bytes:
         raise IngestionError(
@@ -90,6 +93,9 @@ def process_uploaded_file(
 
     decoded = decode_bytes(raw_bytes)
     normalized = normalize_text_content(decoded)
+    if not normalized.strip():
+        raise IngestionError(f"File '{filename}' contains only whitespace or is empty.")
+
     kind, warning = detect_kind_and_warning(filename)
 
     return NormalizedSource(
@@ -138,3 +144,4 @@ def validate_source_batch(
             f"Total input volume ({total_chars:,} characters) exceeds the limit of {limit_chars:,} characters. "
             "Please remove some files or trim the input before proceeding."
         )
+

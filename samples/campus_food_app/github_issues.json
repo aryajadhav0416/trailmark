@@ -1,0 +1,100 @@
+[
+  {
+    "number": 1,
+    "title": "Menu endpoint returns 500 for an empty category",
+    "state": "closed",
+    "author": "dev-patil",
+    "created_at": "2026-10-17",
+    "labels": [
+      "bug"
+    ],
+    "body": "GET /menu?category=x returns 500 when the category has no items. Should return an empty list.",
+    "comments": 2
+  },
+  {
+    "number": 2,
+    "title": "Canteen screen: play a sound for each new order",
+    "state": "open",
+    "author": "kabir-s",
+    "created_at": "2026-10-30",
+    "labels": [
+      "enhancement"
+    ],
+    "body": "Staff are busy at the counter and will not watch the screen. Add a short sound on new orders.",
+    "comments": 0
+  },
+  {
+    "number": 3,
+    "title": "502 Bad Gateway after every deploy on the campus VM",
+    "state": "open",
+    "author": "dev-patil",
+    "created_at": "2026-11-08",
+    "labels": [
+      "bug",
+      "deployment"
+    ],
+    "body": "After each deploy nginx keeps proxying to the old gunicorn socket. Workaround: restart nginx manually. Seen on 19 Oct, 27 Oct and 8 Nov. The deploy script never reloads nginx.",
+    "comments": 4
+  },
+  {
+    "number": 4,
+    "title": "Order token must be unique per day",
+    "state": "closed",
+    "author": "riya-k",
+    "created_at": "2026-10-28",
+    "labels": [
+      "bug"
+    ],
+    "body": "Tokens repeated after midnight. Fixed by adding the date to the token sequence.",
+    "comments": 1
+  },
+  {
+    "number": 5,
+    "title": "Verify the PayNest webhook signature",
+    "state": "open",
+    "author": "riya-k",
+    "created_at": "2026-11-07",
+    "labels": [
+      "payments",
+      "security"
+    ],
+    "body": "The webhook handler does not yet verify the signature header. Not done. Needed before we accept real payments.",
+    "comments": 0
+  },
+  {
+    "number": 6,
+    "title": "Add nightly database backup",
+    "state": "open",
+    "author": "dev-patil",
+    "created_at": "2026-10-23",
+    "labels": [
+      "ops"
+    ],
+    "body": "The campus VM has no automatic backups. No owner assigned.",
+    "comments": 3
+  },
+  {
+    "number": 7,
+    "title": "Rate limit the login endpoint",
+    "state": "open",
+    "author": "kabir-s",
+    "created_at": "2026-11-04",
+    "labels": [
+      "security"
+    ],
+    "body": "Anyone can try unlimited OTP attempts.",
+    "comments": 0
+  },
+  {
+    "number": 8,
+    "title": "pos-bridge retries forever when the canteen POS is switched off",
+    "state": "open",
+    "author": "meera-n",
+    "created_at": "2026-11-09",
+    "labels": [
+      "bug"
+    ],
+    "body": "When the POS is off the bridge keeps retrying and fills the log. Needs a timeout. Riya wrote the bridge.",
+    "comments": 1
+  }
+]

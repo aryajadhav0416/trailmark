@@ -1,0 +1,10 @@
+14/11/26, 8:10 pm - Rohan: bhai website ka deadline 25 tarikh hai na?
+14/11/26, 8:12 pm - Simran: haan, par client ne kaha 28 tak chalega
+14/11/26, 8:13 pm - Rohan: thik hai, hum 25 hi rakhte hain, safe side
+14/11/26, 8:15 pm - Simran: decision final: hum WordPress nahi, custom React use karenge
+14/11/26, 8:16 pm - Rohan: kyun? WordPress to fast tha
+14/11/26, 8:18 pm - Simran: client ko custom dashboard chahiye, plugin se nahi hoga
+14/11/26, 8:20 pm - Rohan: samajh gaya. payment gateway kaun dekhega?
+14/11/26, 8:21 pm - Simran: abhi decide nahi hua. Amit se pooch lo
+14/11/26, 8:25 pm - Rohan: ek risk hai, hosting ka bill abhi tak kisi ne pay nahi kiya
+14/11/26, 8:26 pm - Simran: haan, ye main dekhti hoon, kal tak

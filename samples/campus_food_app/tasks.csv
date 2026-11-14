@@ -1,0 +1,27 @@
+id,task,owner,status,due,notes
+T01,Repo and docker compose skeleton,Riya,Done,2026-10-12,
+T02,Menu API (CRUD for menu items),Riya,Done,2026-10-19,Swagger docs at /docs
+T03,React project setup (Vite),Kabir,Done,2026-10-14,
+T04,Student login screen,Kabir,Done,2026-10-20,Built on Firebase SDK; to be reworked after auth migration
+T05,Canteen survey and summary,Meera,Done,2026-10-16,31+ responses
+T06,UI design for student app,Meera,Done,2026-10-22,Figma link is in the notes folder
+T07,Test data script,Dev,Done,2026-10-21,"40 menu items, 200 fake students"
+T08,Ask canteen about POS system,Meera,Done,2026-10-26,"Old POS, no API"
+T09,Migrate auth from Firebase to Postgres JWT,Riya,In progress,2026-11-07,"Order tables moved; login endpoints done 4 Nov, cleanup left"
+T10,Cart and checkout screens,Kabir,In progress,2026-11-10,"Checkout v1 pushed, no payment yet"
+T11,Payment integration (PayNest),Riya,In progress - 70% done,2026-11-15,
+T12,Canteen staff order screen,Kabir,Not started,2026-11-20,Polling every 5 seconds
+T13,Order token QR code,Meera,In progress,2026-11-18,"Meera designs, Kabir implements"
+T14,POS bridge script,Riya,Done,2026-11-02,
+T15,Order notification webhooks,Riya,Not started,2026-11-22,
+T16,Deployment pipeline (CI and VM deploy),Dev,In progress,2026-11-12,Needs the nginx 502 fix
+T17,Fix 502 after deploy (nginx socket),Riya,Open,2026-11-12,Happened 3 times so far
+T18,Load test with 200 fake users,Dev,Not started,2026-11-25,"Run at lunch peak, 1 to 1:45 pm"
+T19,Nightly backup for the campus VM,Unassigned,Not started,2026-11-30,Needs a request to IT
+T20,Order history screen,Kabir,Not started,2026-11-24,
+T21,Rate limiting on order endpoint,Riya,Not started,2026-11-26,Limit 5 orders/min per user; test amounts under ₹2000
+T22,Demo script and slides,Meera,Not started,2026-12-05,Demo date: 10 Dec
+T23,Written handover document,Riya,Not started,2026-11-20,
+T24,Short report for the department panel,Meera,Not started,2026-12-07,Due 3 days before the demo
+T25,Accessibility check (colour contrast),Dev,Not started,2026-12-01,
+T26,Hostel delivery,Nobody,Dropped,,Out of scope for v1

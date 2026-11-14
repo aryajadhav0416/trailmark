@@ -1,0 +1,6 @@
+id,task,owner,notes
+1,"Set up billing, invoices, and receipts",Sana,"Uses the ""legacy"" export; see ₹ column"
+2,Update README,,
+3,"Fix login bug
+reported by two users",Tom,"Line break inside this cell"
+4,Translate the help page,Lucía,"Spanish, Hindi (हिन्दी)"

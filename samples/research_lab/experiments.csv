@@ -1,0 +1,9 @@
+id,date,experiment,protocol,result,status
+E01,2026-09-02,Baseline stability at 25C,v2,Inconsistent across plates,Repeat
+E02,2026-09-16,Baseline stability at 25C,v2,Inconsistent across plates,Repeat
+E03,2026-10-14,Baseline stability at 25C,v3,Consistent (CV under 5%),Done
+E04,2026-10-21,Stability at 37C,v3,Decay visible after 6 h,Done
+E05,2026-10-28,Stability with buffer B,v3,Stabilised for 24 h,Done
+E06,2026-11-04,96-well format pilot,v3,Pilot ran; analysis not finished,In progress
+E07,2026-11-11,Antibody binding assay,v3,,Planned
+E08,2026-11-18,Replicate of E05,v3,,Planned

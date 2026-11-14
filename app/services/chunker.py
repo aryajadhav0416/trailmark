@@ -129,8 +129,9 @@ def chunk_csv(
 ) -> list[ChunkRecord]:
     """
     Chunk CSV documents:
+    - Parse using standard csv.reader to properly handle multi-line cells, quotes, and commas.
     - Keep track of actual line numbers in the original raw source.
-    - Each chunk repeats the header row at the top of its text.
+    - Each chunk repeats the header row inside its text.
     - Chunks span ~15 data rows.
     """
     if not content.strip():
@@ -144,41 +145,52 @@ def chunk_csv(
             )
         ]
 
-    # Map CSV reader rows to source line spans
-    raw_lines = content.split("\n")
-    if not raw_lines:
+    lines = content.split("\n")
+    sio = io.StringIO(content)
+    try:
+        reader = csv.reader(sio)
+        records: list[tuple[int, int, str]] = []  # (start_line, end_line, raw_text)
+        prev_line = 0
+        for _ in reader:
+            curr_line = reader.line_num
+            raw_slice = lines[prev_line:curr_line]
+            records.append((prev_line + 1, curr_line, "\n".join(raw_slice)))
+            prev_line = curr_line
+    except Exception:
+        # Fallback to simple line-based chunking if CSV parser fails
+        return chunk_text_lines(lines, source_ordinal=source_ordinal)
+
+    if not records:
         return []
 
-    header_line = raw_lines[0]
-    total_lines = len(raw_lines)
+    header_record = records[0]
+    header_text = header_record[2]
+    data_records = records[1:]
 
-    if total_lines <= 1:
-        # Only header or empty
+    if not data_records:
         return [
             ChunkRecord(
-                label=f"S{source_ordinal}:L1-{total_lines}",
-                start_line=1,
-                end_line=total_lines,
-                text=header_line,
+                label=f"S{source_ordinal}:L{header_record[0]}-{header_record[1]}",
+                start_line=header_record[0],
+                end_line=header_record[1],
+                text=header_text,
                 source_ordinal=source_ordinal,
             )
         ]
 
-    # Data rows start at line 2 (1-based)
     chunks: list[ChunkRecord] = []
-    data_lines = raw_lines[1:]
-    num_data_lines = len(data_lines)
-
+    num_data = len(data_records)
     idx = 0
-    while idx < num_data_lines:
-        end_idx = min(idx + rows_per_chunk, num_data_lines)
-        slice_lines = data_lines[idx:end_idx]
 
-        start_line = 2 + idx
-        end_line = 1 + end_idx
+    while idx < num_data:
+        end_idx = min(idx + rows_per_chunk, num_data)
+        slice_records = data_records[idx:end_idx]
 
-        # Repeat header row inside chunk text
-        chunk_text = header_line + "\n" + "\n".join(slice_lines)
+        start_line = slice_records[0][0]
+        end_line = slice_records[-1][1]
+
+        data_text = "\n".join(r[2] for r in slice_records)
+        chunk_text = header_text + "\n" + data_text
 
         chunks.append(
             ChunkRecord(
@@ -247,3 +259,4 @@ def chunk_source(
         c.source_id = source_id
 
     return chunks
+

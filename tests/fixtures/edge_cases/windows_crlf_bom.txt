@@ -1,0 +1,5 @@
+﻿Notes from the Friday call
+
+“Decision: we will ship weekly releases — every Friday.”
+Owner of the release checklist: Ira.
+Risk: the staging server is shared with another team’s tests.
