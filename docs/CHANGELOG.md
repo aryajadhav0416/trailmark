@@ -2,6 +2,18 @@
 
 All notable changes to the Trailmark project will be documented in this file.
 
+## [0.5.0] - LLM Adapter and Knowledge Extraction Service
+### Added
+- `app/services/llm.py`: Provider-agnostic LLM adapter with `generate_json(system, user) -> dict`.
+  - Supports `openai_compatible` and `mock` (with stubs for `gemini` and `anthropic`).
+  - Single-attempt repair instruction on malformed JSON; raises `ExtractionError` if unrecoverable.
+  - 60s timeout with exponential backoff on 429 and 5xx (up to 2 retries).
+  - SHA-256 disk cache under `DATA_DIR/llm_cache/` reporting `cached=True` on hit.
+  - Safe logging ensuring API keys and prompts are never exposed in logs.
+- `app/prompts/extract_system.txt`: Master system prompt with prompt injection defenses and untrusted-data boundary rules.
+- `app/services/extract.py`: Extraction service grouping chunks into ~6,000 char batches, invoking LLM within `<source_chunk>` boundary tags, Pydantic item validation (`type`, `quote` 12-300, `statement` <= 240), deduplication by normalized statement, and returning items with run statistics.
+- `tests/test_extract.py`: Unit tests verifying disk caching, repair retry logic, prompt encapsulation, schema validation drops, and deduplication.
+
 ## [0.4.0] - CLI Tool and Real Fixture Validation Suite
 ### Added
 - `scripts/chunk_demo.py`: CLI tool accepting a file path and printing chunk labels, 80-character snippets, warnings (unknown extension, encoding), or clear rejection messages.
