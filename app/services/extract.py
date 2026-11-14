@@ -207,3 +207,4 @@ def extract_case_knowledge(
         warnings=all_warnings,
         stats=stats,
     )
+

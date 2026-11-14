@@ -6,6 +6,10 @@ In compliance with hackathon rules, this document records AI tool usage in the d
 
 - **Date**: 2026-11-14
 - **Tool**: Antigravity (Gemini 3.8 Flash)
+- **Scope**: Fully implemented Google Gemini REST API provider in `app/services/llm.py` with sanitized error reporting. Added deterministic input fixture routing in mock provider for PostgreSQL inputs to avoid SQLite response leakage. Added regression tests in `tests/test_extract.py`.
+
+- **Date**: 2026-11-14
+- **Tool**: Antigravity (Gemini 3.8 Flash)
 - **Scope**: Implemented `app/services/llm.py` (OpenAI-compatible client, SHA-256 caching, backoff retries, JSON auto-repair) and `app/services/extract.py` (chunk batching, prompt injection protection, Pydantic item validation, deduplication). Added master system prompt in `app/prompts/extract_system.txt` and unit tests in `tests/test_extract.py`.
 
 - **Date**: 2026-11-14

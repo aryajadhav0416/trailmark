@@ -2,6 +2,14 @@
 
 All notable changes to the Trailmark project will be documented in this file.
 
+## [0.5.1] - Gemini Provider and Deterministic Mock Routing
+### Added
+- Implemented full Google Gemini REST API provider in `app/services/llm.py` (`generateContent` with `systemInstruction`, `responseMimeType="application/json"`, timeout, and backoff retries).
+- Sanitized exception reporting preventing leakage of API keys or full prompts on HTTP/API errors.
+- Markdown code fence cleaning (`_clean_json_markdown`) for LLM JSON outputs.
+- Deterministic mock routing in `MOCK_POSTGRES_RESPONSE` for PostgreSQL test cases while preserving default mock responses.
+- Regression tests for mock input routing, cache isolation, and Gemini request/error formatting.
+
 ## [0.5.0] - LLM Adapter and Knowledge Extraction Service
 ### Added
 - `app/services/llm.py`: Provider-agnostic LLM adapter with `generate_json(system, user) -> dict`.

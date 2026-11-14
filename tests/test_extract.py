@@ -1,7 +1,8 @@
 """Unit tests for LLM adapter and Extraction service."""
 
 import json
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
+import httpx
 import pytest
 from app.config import settings
 from app.services.chunker import ChunkRecord
@@ -10,6 +11,7 @@ from app.services.llm import (
     compute_cache_key,
     get_cache_dir,
     ExtractionError,
+    _call_gemini,
 )
 from app.services.extract import (
     extract_case_knowledge,
@@ -42,6 +44,32 @@ def test_llm_mock_provider_and_disk_caching(tmp_path):
         assert result2 == result
 
 
+def test_llm_mock_input_routing_and_cache_isolation(tmp_path):
+    """Test mock provider returns different deterministic fixtures for different inputs with isolated caches."""
+    with patch.object(settings, "DATA_DIR", str(tmp_path)):
+        sys_prompt = "You extract knowledge."
+
+        # Input 1: generic/sqlite notes
+        user_generic = "<source_chunk id='S1:L1'>Adopted SQLite storage</source_chunk>"
+        res_generic, _ = generate_json(sys_prompt, user_generic, provider="mock")
+        assert "SQLite" in res_generic["items"][0]["statement"]
+
+        # Input 2: postgresql migration notes
+        user_pg = "<source_chunk id='S1:L1'>Project: Customer Portal Migration\nDecided to use PostgreSQL</source_chunk>"
+        res_pg, _ = generate_json(sys_prompt, user_pg, provider="mock")
+        assert "PostgreSQL" in res_pg["items"][0]["statement"]
+        assert len(res_pg["items"]) > 1
+
+        # Cache keys must be completely different
+        key_generic = compute_cache_key("mock", settings.LLM_MODEL, sys_prompt, user_generic)
+        key_pg = compute_cache_key("mock", settings.LLM_MODEL, sys_prompt, user_pg)
+        assert key_generic != key_pg
+
+        # Verify disk cache isolation
+        assert (tmp_path / "llm_cache" / f"{key_generic}.json").exists()
+        assert (tmp_path / "llm_cache" / f"{key_pg}.json").exists()
+
+
 def test_llm_invalid_json_single_retry_success():
     """Test invalid JSON response triggers a repair retry and succeeds if repair returns valid JSON."""
     calls = []
@@ -66,6 +94,74 @@ def test_llm_invalid_json_double_failure_raises_extraction_error():
     with patch("app.services.llm._call_provider_raw", return_value="Still not json"):
         with pytest.raises(ExtractionError, match="LLM returned invalid JSON after repair retry"):
             generate_json("sys", "user", provider="openai_compatible", bypass_cache=True)
+
+
+def test_gemini_provider_success():
+    """Test Gemini provider correctly structures request and returns parsed JSON candidate."""
+    mock_payload = {
+        "candidates": [
+            {
+                "content": {
+                    "parts": [
+                        {
+                            "text": json.dumps({
+                                "items": [
+                                    {
+                                        "type": "decision",
+                                        "statement": "Use Gemini API",
+                                        "quote": "Use Gemini API",
+                                        "chunk_id": "S1:L1-1",
+                                    }
+                                ],
+                                "warnings": [],
+                            })
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+
+    mock_resp = MagicMock(spec=httpx.Response)
+    mock_resp.status_code = 200
+    mock_resp.json.return_value = mock_payload
+
+    with patch("httpx.Client.post", return_value=mock_resp) as mock_post:
+        res = _call_gemini(
+            system="System instruction",
+            user="User message",
+            api_key="secret-key-123",
+            model="gemini-1.5-flash",
+        )
+        assert "Use Gemini API" in res
+        # Verify request parameters
+        mock_post.assert_called_once()
+        _, kwargs = mock_post.call_args
+        assert kwargs["params"] == {"key": "secret-key-123"}
+        assert kwargs["json"]["generationConfig"]["responseMimeType"] == "application/json"
+        assert kwargs["json"]["systemInstruction"]["parts"][0]["text"] == "System instruction"
+        assert kwargs["json"]["contents"][0]["parts"][0]["text"] == "User message"
+
+
+def test_gemini_provider_error_handling_sanitizes_keys():
+    """Test Gemini error handling does not expose API key in exception message."""
+    mock_resp = MagicMock(spec=httpx.Response)
+    mock_resp.status_code = 403
+    mock_resp.text = "Forbidden"
+
+    http_error = httpx.HTTPStatusError("403 Forbidden", request=MagicMock(), response=mock_resp)
+
+    with patch("httpx.Client.post", side_effect=http_error):
+        with pytest.raises(ExtractionError) as exc_info:
+            _call_gemini(
+                system="sys",
+                user="usr",
+                api_key="super-secret-key",
+                model="gemini-1.5-flash",
+            )
+        err_msg = str(exc_info.value)
+        assert "super-secret-key" not in err_msg
+        assert "Gemini HTTP error 403" in err_msg
 
 
 # ---------------------------------------------------------------------------

@@ -1,0 +1,15 @@
+Project: Customer Portal Migration
+The team decided to use PostgreSQL for the new platform.
+The reason was better support for relational data.
+Sarah will own database migration.
+Migration must be completed before December.
+The API currently depends on the legacy authentication service.
+The legacy service sometimes returns timeout errors.
+This could delay the migration.
+We still need to decide the backup strategy.
+John will prepare the migration checklist.
+The team agreed to deploy in two stages.
+The first stage covers internal users.
+The second stage covers all customers.
+Sarah will coordinate database testing.
+The security review is still pending.
