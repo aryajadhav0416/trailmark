@@ -246,3 +246,4 @@ def test_invalid_action_rejected(db_conn: sqlite3.Connection):
     )
     with pytest.raises(ValueError, match="Invalid item version action"):
         update_item(db_conn, items[0]["id"], "random_action", {"review_status": "approved"})
+
