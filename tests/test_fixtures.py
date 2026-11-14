@@ -232,3 +232,4 @@ def test_all_campus_food_app_under_max_input_chars():
     assert total_chars <= settings.MAX_INPUT_CHARS
     # Ensure validate_source_batch passes without raising
     validate_source_batch(sources, max_files=10, max_total_chars=settings.MAX_INPUT_CHARS)
+
