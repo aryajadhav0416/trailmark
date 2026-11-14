@@ -7,3 +7,4 @@ class HealthResponse(BaseModel):
     """Healthcheck response model."""
 
     status: str
+

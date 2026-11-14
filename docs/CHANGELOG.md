@@ -10,3 +10,4 @@ All notable changes to the Trailmark project will be documented in this file.
 - Healthcheck endpoint `GET /healthz`.
 - Dockerfile supporting dynamic `$PORT` binding.
 - Pytest test suite with smoke tests for `/healthz` and `/`.
+

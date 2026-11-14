@@ -19,3 +19,4 @@ def test_home_page() -> None:
     assert response.status_code == 200
     assert "Trailmark" in response.text
     assert "Demo uses synthetic data. Do not upload confidential files." in response.text
+

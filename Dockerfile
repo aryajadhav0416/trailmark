@@ -26,3 +26,4 @@ EXPOSE ${PORT}
 
 # Run with uvicorn binding to 0.0.0.0 and PORT
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT}"]
+
